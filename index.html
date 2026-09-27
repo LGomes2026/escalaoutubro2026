@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Defesa Civil de Porto Alegre - Escala Operacional de Outubro 2026</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-dark: #0b0f19;
+      --card-bg: rgba(22, 30, 49, 0.75);
+      --card-border: rgba(255, 255, 255, 0.15);
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      
+      --primary-blue: #2563eb;
+      --primary-blue-glow: rgba(37, 99, 235, 0.35);
+      --accent-orange: #f97316;
+      --accent-orange-glow: rgba(249, 115, 22, 0.35);
+      
+      /* Cores de Turnos */
+      --shift-D-bg: #fef08a;   /* Amarelo Claro */
+      --shift-D-txt: #000000;
+      
+      --shift-N-bg: #bae6fd;   /* Azul Claro */
+      --shift-N-txt: #000000;
+      
+      --shift-24h-bg: #ffedd5; /* Laranja Claro */
+      --shift-24h-txt: #dc2626;/* Texto Vermelho */
+      
+      --shift-AT-bg: #e2e8f0;  /* Cinza Claro */
+      --shift-AT-txt: #1e293b;
+      
+      --shift-F-bg: #bbf7d0;   /* Verde Claro */
+      --shift-F-txt: #14532d;
+      
+      --shift-FR-bg: #bbf7d0;  /* Verde Claro */
+      --shift-FR-txt: #dc2626; /* Texto Vermelho */
+      
+      --shift-FT-bg: #fecaca;  /* Vermelho Claro */
+      --shift-FT-txt: #7f1d1d;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
+    body {
+      background: radial-gradient(circle at top right, #1e1b4b, #0b0f19 60%);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--card-border);
+      padding: 16px 24px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+    .brand { display: flex; align-items: center; gap: 16px; }
+    .brand-logo {
+      width: 48px; height: 48px;
+      background: linear-gradient(135deg, var(--accent-orange), #ea580c);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 20px; color: #fff;
+      box-shadow: 0 0 20px var(--accent-orange-glow);
+    }
+    .brand-titles h1 { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; }
+    .brand-titles h2 { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+
+    .controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .btn {
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      border: 1px solid var(--card-border);
+      padding: 10px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .btn-primary { background: linear-gradient(135deg, #2563eb, #1d4ed8); border: none; box-shadow: 0 0 15px var(--primary-blue-glow); }
+    .btn-warning { background: linear-gradient(135deg, #d97706, #b45309); border: none; }
+    .btn-success { background: linear-gradient(135deg, #16a34a, #15803d); border: none; }
+    .btn-danger { background: linear-gradient(135deg, #dc2626, #b91c1c); border: none; }
+    .btn-secondary { background: rgba(255, 255, 255, 0.1); border: 1px solid var(--card-border); }
+
+    .mode-indicator {
+      padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .mode-view { background: rgba(2, 132, 199, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
+    .mode-edit { background: rgba(217, 119, 6, 0.2); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.3); }
+
+    .legend-bar {
+      display: flex; gap: 12px; flex-wrap: wrap;
+      background: var(--card-bg); backdrop-filter: blur(12px);
+      border: 1px solid var(--card-border);
+      padding: 12px 18px; border-radius: 14px; margin-bottom: 20px; font-size: 12px; font-weight: 600;
+    }
+    .legend-item { display: flex; align-items: center; gap: 8px; }
+    .legend-box { width: 32px; height: 22px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 11px; }
+
+    nav { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+    .nav-tab {
+      background: rgba(255, 255, 255, 0.03); color: var(--text-muted);
+      border: 1px solid var(--card-border); padding: 12px 20px;
+      font-size: 13px; font-weight: 700; cursor: pointer; border-radius: 12px;
+      transition: all 0.2s ease;
+    }
+    .nav-tab:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
+    .nav-tab.active {
+      background: linear-gradient(135deg, var(--primary-blue), #1e3a8a);
+      color: #fff; border-color: transparent;
+      box-shadow: 0 4px 20px var(--primary-blue-glow);
+    }
+
+    .table-container {
+      max-height: 580px; overflow: auto;
+      background: var(--card-bg); backdrop-filter: blur(12px);
+      border-radius: 16px; border: 1px solid var(--card-border);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+    table { border-collapse: separate; border-spacing: 0; width: 100%; font-size: 12px; }
+    
+    /* BORDAS E LINHAS HORIZONTAIS CONTINUAS DA TABELA */
+    th, td { 
+      border-bottom: 2px solid rgba(255, 255, 255, 0.22) !important; 
+      border-right: 1px solid rgba(255, 255, 255, 0.1) !important; 
+      text-align: center; 
+      padding: 6px; 
+    }
+
+    tbody tr {
+      transition: background 0.15s ease;
+    }
+    tbody tr:hover {
+      background: rgba(255, 255, 255, 0.08) !important;
+    }
+
+    thead tr:nth-child(1) th { position: sticky; top: 0; background: #0b0f19; z-index: 10; height: 36px; font-weight: 800; color: var(--text-muted); border-bottom: 1px solid var(--card-border); }
+    thead tr:nth-child(2) th { position: sticky; top: 36px; background: #161e31; z-index: 10; height: 28px; font-weight: 700; color: var(--accent-orange); border-bottom: 2px solid rgba(255, 255, 255, 0.3); }
+
+    .col-fixed-1 { position: sticky; left: 0; z-index: 5; background: #111827; min-width: 240px; text-align: left; padding-left: 10px; font-weight: 600; border-right: 2px solid rgba(255, 255, 255, 0.25) !important; }
+    
+    thead tr th.col-fixed-1 { z-index: 15; }
+
+    /* Nome de Guerra em Azul */
+    .agent-name-uppercase {
+      color: #38bdf8 !important;
+      font-weight: 800 !important;
+    }
+
+    /* Estilos do Relatório Individual */
+    .badge-overtime {
+      color: #ef4444;
+      font-weight: 800;
+      background: rgba(239, 68, 68, 0.15);
+      padding: 4px 8px;
+      border-radius: 6px;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      display: inline-block;
+    }
+
+    select.shift-select {
+      width: 100%; height: 28px; border: none; background: transparent;
+      text-align-last: center; font-weight: 800; cursor: pointer; border-radius: 6px; font-size: 11px;
+    }
+    
+    .shift-D { background-color: var(--shift-D-bg) !important; color: var(--shift-D-txt) !important; font-weight: 800; }
+    .shift-N { background-color: var(--shift-N-bg) !important; color: var(--shift-N-txt) !important; font-weight: 800; }
+    .shift-24h { background-color: var(--shift-24h-bg) !important; color: var(--shift-24h-txt) !important; font-weight: 800; }
+    .shift-AT { background-color: var(--shift-AT-bg) !important; color: var(--shift-AT-txt) !important; font-weight: 700; }
+    .shift-F { background-color: var(--shift-F-bg) !important; color: var(--shift-F-txt) !important; font-weight: 700; }
+    .shift-FR { background-color: var(--shift-FR-bg) !important; color: var(--shift-FR-txt) !important; font-weight: 800; }
+    .shift-FT { background-color: var(--shift-FT-bg) !important; color: var(--shift-FT-txt) !important; font-weight: 800; }
+
+    .summary-row td { font-weight: 800; background: #090d16; color: var(--text-main); border-top: 2px solid rgba(255, 255, 255, 0.3) !important; }
+
+    .section-block {
+      background: var(--card-bg); backdrop-filter: blur(12px);
+      border-radius: 16px; border: 1px solid var(--card-border);
+      padding: 20px; margin-top: 20px;
+    }
+    .section-title { font-size: 18px; font-weight: 800; color: var(--accent-orange); margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
+    
+    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label { font-size: 12px; color: var(--text-muted); font-weight: 600; }
+    .form-group input, .form-group select, .form-group textarea {
+      background: rgba(0, 0, 0, 0.25); border: 1px solid var(--card-border); color: #fff; padding: 10px 14px; border-radius: 8px; font-size: 13px; outline: none;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--primary-blue); }
+
+    .action-btn-cell {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    /* ESTILOS DE IMPRESSÃO */
+    @media print {
+      @page { size: A4 landscape; margin: 4mm; }
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+      body { background: #ffffff !important; color: #000000 !important; padding: 0 !important; }
+      header, .controls, nav, .legend-bar, .section-block, .btn, .no-print, .btn-remove-agent { display: none !important; }
+      .table-container { max-height: none !important; overflow: visible !important; border: none !important; box-shadow: none !important; }
+      table { border-collapse: collapse !important; width: 100% !important; font-size: 7.5pt !important; }
+      th, td { border: 1px solid #000000 !important; padding: 2px 1px !important; text-align: center !important; }
+      thead tr:nth-child(1) th { background: #0f172a !important; color: #ffffff !important; }
+      thead tr:nth-child(2) th { background: #1e293b !important; color: #f97316 !important; }
+      .col-fixed-1 { position: static !important; background: #f1f5f9 !important; color: #000000 !important; font-weight: bold !important; text-align: left !important; padding-left: 4px !important; width: 190px !important; }
+      .agent-name-uppercase { color: #2563eb !important; }
+      .shift-D { background-color: #fef08a !important; color: #000000 !important; font-weight: bold !important; }
+      .shift-N { background-color: #bae6fd !important; color: #000000 !important; font-weight: bold !important; }
+      .shift-24h { background-color: #ffedd5 !important; color: #dc2626 !important; font-weight: bold !important; }
+      .shift-AT { background-color: #e2e8f0 !important; color: #000000 !important; }
+      .shift-F { background-color: #bbf7d0 !important; color: #14532d !important; }
+      .shift-FR { background-color: #bbf7d0 !important; color: #dc2626 !important; font-weight: bold !important; }
+      .shift-FT { background-color: #fecaca !important; color: #7f1d1d !important; font-weight: bold !important; }
+      .summary-row td { background: #e2e8f0 !important; color: #000000 !important; font-weight: bold !important; }
+      .print-header { display: block !important; text-align: center; margin-bottom: 6px; }
+      .print-header h2 { font-size: 13pt; font-weight: 800; color: #1e3a8a; margin-bottom: 2px; }
+      .print-header p { font-size: 9pt; font-weight: bold; color: #334155; }
+      .print-footer { display: block !important; margin-top: 15px; text-align: right; padding-right: 20px; font-size: 10pt; font-weight: bold; color: #000000; }
+    }
+
+    .print-header, .print-footer { display: none; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <div class="brand-logo">DC</div>
+      <div class="brand-titles">
+        <h1>Defesa Civil de Porto Alegre</h1>
+        <h2>Painel e Gestão Operacional de Escala - Outubro 2026</h2>
+      </div>
+    </div>
+    <div class="controls">
+      <span id="mode-badge" class="mode-indicator mode-view">Modo Leitura</span>
+      <button class="btn btn-warning" onclick="toggleEditMode()">Alternar Modo Edição</button>
+      <button class="btn btn-secondary" onclick="exportBackup()">💾 Exportar Backup</button>
+      <button class="btn btn-secondary" onclick="document.getElementById('import-file').click()">📂 Importar Backup</button>
+      <input type="file" id="import-file" style="display:none;" onchange="importBackup(event)" accept=".json">
+      <button class="btn btn-primary" onclick="downloadPDF()">⬇️ Baixar PDF / Salvar</button>
+    </div>
+  </header>
+
+  <div class="legend-bar">
+    <div class="legend-item"><div class="legend-box shift-D">D</div> Diurno (12h)</div>
+    <div class="legend-item"><div class="legend-box shift-N">N</div> Noturno (12h)</div>
+    <div class="legend-item"><div class="legend-box shift-24h">24h</div> Plantão Extra (24h)</div>
+    <div class="legend-item"><div class="legend-box shift-AT">AT</div> Atestado</div>
+    <div class="legend-item"><div class="legend-box shift-F">F</div> Folga</div>
+    <div class="legend-item"><div class="legend-box shift-FR">FR</div> Folga Remunerada</div>
+    <div class="legend-item"><div class="legend-box shift-FT">FT</div> Falta Trabalho</div>
+  </div>
+
+  <nav>
+    <button class="nav-tab active" onclick="switchTab('delta1')">Delta 1</button>
+    <button class="nav-tab" onclick="switchTab('delta2')">Delta 2</button>
+    <button class="nav-tab" onclick="switchTab('evt')">EVT / Operacional</button>
+    <button class="nav-tab" onclick="switchTab('gestao-agentes')">👥 Gestão de Colaboradores</button>
+    <button class="nav-tab" onclick="switchTab('relatorio-geral')">📊 Relatório Geral</button>
+    <button class="nav-tab" onclick="switchTab('relatorio')">👤 Relatório Individual</button>
+    <button class="nav-tab" onclick="switchTab('trocas')">Gestão de Trocas</button>
+    <button class="nav-tab" onclick="switchTab('he')">Horas Extras (24h)</button>
+    <button class="nav-tab" onclick="switchTab('conduta')">Registro de Conduta</button>
+  </nav>
+
+  <div class="print-header">
+    <h2>DEFESA CIVIL DE PORTO ALEGRE - ESCALA OPERACIONAL DE OUTUBRO 2026</h2>
+    <p id="print-tab-title">EQUIPE: DELTA 1</p>
+  </div>
+
+  <div id="view-escala" class="table-container">
+    <table id="schedule-table">
+      <thead>
+        <tr id="header-days">
+          <th class="col-fixed-1">Colaborador / Matrícula</th>
+        </tr>
+        <tr id="header-weekdays">
+          <th class="col-fixed-1"></th>
+        </tr>
+      </thead>
+      <tbody id="schedule-body"></tbody>
+      <tfoot id="schedule-foot"></tfoot>
+    </table>
+  </div>
+
+  <!-- VIEW GESTÃO DE COLABORADORES -->
+  <div id="view-gestao-agentes" class="section-block" style="display: none;">
+    <div class="section-title">
+      <span>Gestão de Colaboradores (Adicionar / Remover)</span>
+    </div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Nome do Colaborador</label>
+        <input type="text" id="add-agent-name" placeholder="Ex: Agente DELTA 1-21">
+      </div>
+      <div class="form-group">
+        <label>Matrícula</label>
+        <input type="text" id="add-agent-mat" placeholder="Ex: 2001021">
+      </div>
+      <div class="form-group">
+        <label>Equipe</label>
+        <select id="add-agent-team">
+          <option value="delta1">Delta 1</option>
+          <option value="delta2">Delta 2</option>
+          <option value="evt">EVT / Operacional</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn btn-success" onclick="addNewAgent()">➕ Adicionar Colaborador</button>
+
+    <div style="margin-top: 25px; overflow-x: auto;">
+      <h3 style="font-size: 14px; margin-bottom: 10px; color: var(--text-muted);">Lista de Colaboradores Cadastrados</h3>
+      <table style="width: 100%;">
+        <thead>
+          <tr>
+            <th style="text-align: left; padding-left: 10px;">Nome e Matrícula</th>
+            <th>Equipe</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="lista-agentes-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- VIEW RELATÓRIO GERAL (DIÁRIO POR DIA DO MÊS) -->
+  <div id="view-relatorio-geral" class="section-block" style="display: none;">
+    <div class="section-title">
+      <span>Relatório Geral do Mês (Efetivo Diário por Status)</span>
+      <button class="btn btn-primary" onclick="downloadPDF()">⬇️ Imprimir Relatório Geral</button>
+    </div>
+    <div style="overflow-x: auto; margin-top: 15px;">
+      <table style="width: 100%;">
+        <thead>
+          <tr>
+            <th>Dia</th>
+            <th>Dia da Semana</th>
+            <th class="shift-D">Diurno (D)</th>
+            <th class="shift-N">Noturno (N)</th>
+            <th class="shift-AT">Atestado (AT)</th>
+            <th class="shift-FR">Folga Rem. (FR)</th>
+            <th class="shift-F">Folga (F)</th>
+            <th class="shift-FT">Faltas (FT)</th>
+            <th class="shift-24h">Extra (24h)</th>
+            <th>Total Agentes Ativos (D+N+24h)</th>
+          </tr>
+        </thead>
+        <tbody id="relatorio-geral-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- VIEW RELATÓRIO INDIVIDUAL -->
+  <div id="view-relatorio" class="section-block" style="display: none;">
+    <div class="section-title">
+      <span>Relatório Individual de Horas e Plantões do Colaborador</span>
+      <button class="btn btn-primary" onclick="downloadPDF()">⬇️ Imprimir Relatório</button>
+    </div>
+    <div style="overflow-x: auto; margin-top: 15px;">
+      <table style="width: 100%;">
+        <thead>
+          <tr>
+            <th style="text-align: left; padding-left: 10px;">Colaborador</th>
+            <th>Equipe</th>
+            <th>Diurna (D)</th>
+            <th>Noturna (N)</th>
+            <th>Atestado (AT)</th>
+            <th>Folga Rem. (FR)</th>
+            <th>Faltas (FT)</th>
+            <th>Extra (24h)</th>
+            <th>Total de Horas</th>
+            <th>Status / Carga Horária</th>
+          </tr>
+        </thead>
+        <tbody id="relatorio-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="view-trocas" class="section-block" style="display: none;">
+    <div class="section-title">
+      <span>Gerenciamento de Trocas de Plantão</span>
+      <button class="btn btn-primary" onclick="downloadPDF()">⬇️ Baixar PDF Trocas</button>
+    </div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Agente Solicitante</label>
+        <select id="tr-solicitante" class="agent-dropdown"></select>
+      </div>
+      <div class="form-group">
+        <label>Agente Substituto</label>
+        <select id="tr-substituto" class="agent-dropdown"></select>
+      </div>
+      <div class="form-group"><label>Data do Plantão</label><input type="date" id="tr-data"></div>
+      <div class="form-group">
+        <label>Turno Trocado</label>
+        <select id="tr-turno">
+          <option value="Diurno 12h x Noturno 12h">Diurno 12h x Noturno 12h</option>
+          <option value="Noturno 12h x Diurno 12h">Noturno 12h x Diurno 12h</option>
+          <option value="Folga x Plantão">Folga x Plantão</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Status</label>
+        <select id="tr-status">
+          <option value="Autorizado">Autorizado</option>
+          <option value="Pendente">Pendente</option>
+          <option value="Não Autorizado">Não Autorizado</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn btn-success" onclick="addTroca()">Registrar Troca</button>
+    <div style="margin-top: 15px; overflow-x: auto;">
+      <table style="width:100%">
+        <thead>
+          <tr><th>Data</th><th>Solicitante</th><th>Substituto</th><th>Turno</th><th>Status</th><th>Ações</th></tr>
+        </thead>
+        <tbody id="trocas-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="view-he" class="section-block" style="display: none;">
+    <div class="section-title"><span>Controle de Plantão Extra (24h)</span></div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Agente</label>
+        <select id="he-agente" class="agent-dropdown"></select>
+      </div>
+      <div class="form-group"><label>Data</label><input type="date" id="he-data"></div>
+      <div class="form-group"><label>Motivo</label><input type="text" id="he-motivo"></div>
+    </div>
+    <button class="btn btn-success" onclick="addHE()">Registrar Horas Extras</button>
+    <div style="margin-top: 15px; overflow-x: auto;">
+      <table style="width:100%">
+        <thead><tr><th>Data</th><th>Agente</th><th>Motivo</th><th>Carga (h)</th><th>Ações</th></tr></thead>
+        <tbody id="he-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="view-conduta" class="section-block" style="display: none;">
+    <div class="section-title">
+      <span>Registro de Ocorrências e Conduta Operacional</span>
+      <button class="btn btn-primary" onclick="downloadPDF()">⬇️ Baixar PDF Conduta</button>
+    </div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Agente e Matrícula</label>
+        <select id="cd-agente" class="agent-dropdown"></select>
+      </div>
+      <div class="form-group"><label>Data</label><input type="date" id="cd-data"></div>
+      <div class="form-group">
+        <label>Tipo de Registro</label>
+        <select id="cd-tipo">
+          <option value="Elogio">Elogio</option>
+          <option value="Disciplinar">Disciplinar</option>
+        </select>
+      </div>
+      <div class="form-group" style="grid-column: span 2;">
+        <label>Relato</label>
+        <textarea id="cd-relato" rows="2"></textarea>
+      </div>
+    </div>
+    <button class="btn btn-success" onclick="addConduta()">Salvar Registro</button>
+    <div style="margin-top: 15px; overflow-x: auto;">
+      <table style="width:100%">
+        <thead><tr><th>Data</th><th>Agente</th><th>Tipo</th><th>Relato</th><th>Ações</th></tr></thead>
+        <tbody id="conduta-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="print-footer">
+    <p>Leandro Gomes - CGRD/DCPA</p>
+  </div>
+
+  <script>
+    const DAYS_IN_MONTH = 31;
+    let isEditMode = false;
+    let currentTab = 'delta1';
+
+    const WEEKDAY_NAMES = ['Qui', 'Sex', 'Sáb', 'Dom', 'Seg', 'Ter', 'Qua'];
+
+    let agents = [];
+    let trocasList = [];
+    let heList = [];
+    let condutaList = [];
+
+    // Função utilitária para aplicar estilo em nomes em caixa alta (Nome de Guerra)
+    function formatAgentName(name) {
+      return name.replace(/\b([A-ZÀ-Ú]{2,})\b/g, '<span class="agent-name-uppercase">$1</span>');
+    }
+
+    // Gerador do estado padrão inicial
+    function generateDefaultAgents() {
+      const defaultAgents = [
+        ...Array.from({length: 20}, (_, i) => ({ id: `d1_${i+1}`, team: 'delta1', name: `Agente DELTA 1-${i+1}`, mat: `20010${i+1}`, shifts: {} })),
+        ...Array.from({length: 22}, (_, i) => ({ id: `d2_${i+1}`, team: 'delta2', name: `Agente DELTA 2-${i+1}`, mat: `20020${i+1}`, shifts: {} })),
+        ...Array.from({length: 14}, (_, i) => ({ id: `evt_${i+1}`, team: 'evt', name: `Agente EVT-${i+1}`, mat: `20030${i+1}`, shifts: {} }))
+      ];
+
+      defaultAgents.forEach(agent => {
+        for (let day = 1; day <= DAYS_IN_MONTH; day++) {
+          const wIdx = (day - 1) % 7;
+          const dayName = WEEKDAY_NAMES[wIdx];
+          const isWeekend = (dayName === 'Sáb' || dayName === 'Dom');
+
+          if (agent.team === 'delta1') {
+            agent.shifts[day] = (day % 2 !== 0) ? (day % 4 === 1 ? 'D' : 'N') : 'F';
+          } else if (agent.team === 'delta2') {
+            agent.shifts[day] = (day % 2 === 0) ? (day % 4 === 0 ? 'D' : 'N') : 'F';
+          } else {
+            agent.shifts[day] = isWeekend ? 'F' : 'D';
+          }
+        }
+      });
+      return defaultAgents;
+    }
+
+    // Persistência no LocalStorage
+    function saveData() {
+      const dataToSave = {
+        agents,
+        trocasList,
+        heList,
+        condutaList
+      };
+      localStorage.setItem('dcpa_escala_data', JSON.stringify(dataToSave));
+    }
+
+    function loadData() {
+      const saved = localStorage.getItem('dcpa_escala_data');
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          agents = parsed.agents || generateDefaultAgents();
+          trocasList = parsed.trocasList || [];
+          heList = parsed.heList || [];
+          condutaList = parsed.condutaList || [];
+        } catch (e) {
+          console.error('Erro ao ler dados do localStorage:', e);
+          agents = generateDefaultAgents();
+        }
+      } else {
+        agents = generateDefaultAgents();
+      }
+    }
+
+    function exportBackup() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({ agents, trocasList, heList, condutaList }, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", "dcpa_escala_outubro_2026.json");
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    }
+
+    function importBackup(event) {
+      const fileReader = new FileReader();
+      fileReader.onload = function(e) {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (parsed.agents) {
+            agents = parsed.agents;
+            trocasList = parsed.trocasList || [];
+            heList = parsed.heList || [];
+            condutaList = parsed.condutaList || [];
+            saveData();
+            renderSchedule();
+            renderRelatorioGeral();
+            renderRelatorio();
+            renderGestaoAgentes();
+            renderTables();
+            alert("Backup importado com sucesso!");
+          } else {
+            alert("Ficheiro de backup inválido.");
+          }
+        } catch (err) {
+          alert("Erro ao processar o ficheiro JSON.");
+        }
+      };
+      if (event.target.files[0]) {
+        fileReader.readAsText(event.target.files[0]);
+      }
+    }
+
+    function renderHeaders() {
+      const trDays = document.getElementById('header-days');
+      const trWeekdays = document.getElementById('header-weekdays');
+
+      while (trDays.children.length > 1) trDays.removeChild(trDays.lastChild);
+      while (trWeekdays.children.length > 1) trWeekdays.removeChild(trWeekdays.lastChild);
+
+      for (let day = 1; day <= DAYS_IN_MONTH; day++) {
+        const thD = document.createElement('th');
+        thD.textContent = day < 10 ? `0${day}` : day;
+        trDays.appendChild(thD);
+
+        const thW = document.createElement('th');
+        const wIdx = (day - 1) % 7; 
+        const dayName = WEEKDAY_NAMES[wIdx];
+        thW.textContent = dayName;
+        if (dayName === 'Sáb' || dayName === 'Dom') thW.style.color = '#f97316';
+        trWeekdays.appendChild(thW);
+      }
+    }
+
+    function renderSchedule() {
+      const tbody = document.getElementById('schedule-body');
+      tbody.innerHTML = '';
+
+      const filteredAgents = agents.filter(a => a.team === currentTab);
+
+      filteredAgents.forEach(agent => {
+        const tr = document.createElement('tr');
+
+        const formattedName = formatAgentName(agent.name);
+
+        tr.innerHTML = `
+          <td class="col-fixed-1">
+            <div class="action-btn-cell">
+              <span><span contenteditable="${isEditMode}" onblur="updateAgentName('${agent.id}', this.textContent)">${formattedName}</span> (<span contenteditable="${isEditMode}" onblur="updateAgentMat('${agent.id}', this.textContent)">${agent.mat}</span>)</span>
+              ${isEditMode ? `<button class="btn btn-danger btn-remove-agent" style="padding: 2px 6px; font-size: 10px;" onclick="removeAgent('${agent.id}')" title="Remover das Escalas">X</button>` : ''}
+            </div>
+          </td>
+        `;
+
+        for (let day = 1; day <= DAYS_IN_MONTH; day++) {
+          const shift = agent.shifts[day] || 'F';
+
+          const td = document.createElement('td');
+          td.className = `shift-${shift}`;
+
+          if (isEditMode) {
+            td.innerHTML = `
+              <select class="shift-select shift-${shift}" onchange="changeShift('${agent.id}', ${day}, this.value)">
+                <option value="D" ${shift==='D'?'selected':''}>D</option>
+                <option value="N" ${shift==='N'?'selected':''}>N</option>
+                <option value="24h" ${shift==='24h'?'selected':''}>24h</option>
+                <option value="AT" ${shift==='AT'?'selected':''}>AT</option>
+                <option value="F" ${shift==='F'?'selected':''}>F</option>
+                <option value="FR" ${shift==='FR'?'selected':''}>FR</option>
+                <option value="FT" ${shift==='FT'?'selected':''}>FT</option>
+              </select>
+            `;
+          } else {
+            td.textContent = shift;
+          }
+          tr.appendChild(td);
+        }
+
+        tbody.appendChild(tr);
+      });
+
+      renderSummaryFoot();
+      populateDropdowns();
+    }
+
+    function addNewAgent() {
+      const nameInput = document.getElementById('add-agent-name');
+      const matInput = document.getElementById('add-agent-mat');
+      const teamSelect = document.getElementById('add-agent-team');
+
+      const name = nameInput.value.trim();
+      const mat = matInput.value.trim();
+      const team = teamSelect.value;
+
+      if (!name || !mat) {
+        return alert('Por favor, informe o nome e a matrícula do colaborador.');
+      }
+
+      const newId = `ag_${Date.now()}`;
+      const newShifts = {};
+
+      for (let day = 1; day <= DAYS_IN_MONTH; day++) {
+        const wIdx = (day - 1) % 7;
+        const dayName = WEEKDAY_NAMES[wIdx];
+        const isWeekend = (dayName === 'Sáb' || dayName === 'Dom');
+
+        if (team === 'delta1') {
+          newShifts[day] = (day % 2 !== 0) ? (day % 4 === 1 ? 'D' : 'N') : 'F';
+        } else if (team === 'delta2') {
+          newShifts[day] = (day % 2 === 0) ? (day % 4 === 0 ? 'D' : 'N') : 'F';
+        } else {
+          newShifts[day] = isWeekend ? 'F' : 'D';
+        }
+      }
+
+      agents.push({ id: newId, team, name, mat, shifts: newShifts });
+
+      nameInput.value = '';
+      matInput.value = '';
+
+      saveData();
+      renderSchedule();
+      renderGestaoAgentes();
+      renderRelatorioGeral();
+      renderRelatorio();
+      alert('Colaborador adicionado com sucesso!');
+    }
+
+    function removeAgent(id) {
+      if (confirm('Tem certeza de que deseja remover este colaborador das escalas?')) {
+        agents = agents.filter(a => a.id !== id);
+        saveData();
+        renderSchedule();
+        renderGestaoAgentes();
+        renderRelatorioGeral();
+        renderRelatorio();
+      }
+    }
+
+    function renderGestaoAgentes() {
+      const tbody = document.getElementById('lista-agentes-body');
+      tbody.innerHTML = '';
+
+      agents.forEach(agent => {
+        const tr = document.createElement('tr');
+        const formattedName = formatAgentName(agent.name);
+        
+        let teamName = 'Delta 1';
+        if (agent.team === 'delta2') teamName = 'Delta 2';
+        if (agent.team === 'evt') teamName = 'EVT / Operacional';
+
+        tr.innerHTML = `
+          <td style="text-align: left; padding-left: 10px;">${formattedName} (${agent.mat})</td>
+          <td>${teamName}</td>
+          <td><button class="btn btn-danger" onclick="removeAgent('${agent.id}')">Remover</button></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderRelatorioGeral() {
+      const tbody = document.getElementById('relatorio-geral-body');
+      tbody.innerHTML = '';
+
+      for (let day = 1; day <= DAYS_IN_MONTH; day++) {
+        const wIdx = (day - 1) % 7;
+        const dayName = WEEKDAY_NAMES[wIdx];
+
+        let countD = 0, countN = 0, countAT = 0, countFR = 0, countF = 0, countFT = 0, count24h = 0;
+
+        agents.forEach(agent => {
+          const s = agent.shifts[day];
+          if (s === 'D') countD++;
+          else if (s === 'N') countN++;
+          else if (s === 'AT') countAT++;
+          else if (s === 'FR') countFR++;
+          else if (s === 'F') countF++;
+          else if (s === 'FT') countFT++;
+          else if (s === '24h') count24h++;
+        });
+
+        const activeTotal = countD + countN + count24h;
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td style="font-weight: 800;">${day < 10 ? '0' + day : day}</td>
+          <td style="${(dayName === 'Sáb' || dayName === 'Dom') ? 'color: #f97316; font-weight: 800;' : ''}">${dayName}</td>
+          <td>${countD}</td>
+          <td>${countN}</td>
+          <td>${countAT}</td>
+          <td>${countFR}</td>
+          <td>${countF}</td>
+          <td>${countFT}</td>
+          <td>${count24h}</td>
+          <td style="font-weight: 800; font-size: 13px; color: #38bdf8;">${activeTotal}</td>
+        `;
+        tbody.appendChild(tr);
+      }
+    }
+
+    function renderRelatorio() {
+      const tbody = document.getElementById('relatorio-body');
+      tbody.innerHTML = '';
+
+      agents.forEach(agent => {
+        let countD = 0, countN = 0, countAT = 0, countFR = 0, countFT = 0, count24h = 0;
+
+        for (let day = 1; day <= DAYS_IN_MONTH; day++) {
+          const s = agent.shifts[day];
+          if (s === 'D') countD++;
+          else if (s === 'N') countN++;
+          else if (s === 'AT') countAT++;
+          else if (s === 'FR') countFR++;
+          else if (s === 'FT') countFT++;
+          else if (s === '24h') count24h++;
+        }
+
+        const totalHours = (countD * 12) + (countN * 12) + (countFR * 12) + (count24h * 24) + (countAT * 12);
+        
+        const tr = document.createElement('tr');
+        
+        let statusHtml = '<span style="color: #4ade80; font-weight: 700;">Dentro da carga horária</span>';
+        if (totalHours > 180) {
+          const extraHours = totalHours - 180;
+          statusHtml = `<span class="badge-overtime">Excedente: +${extraHours}h (Horas Extras)</span>`;
+        }
+
+        const formattedName = formatAgentName(agent.name);
+
+        tr.innerHTML = `
+          <td style="text-align: left; padding-left: 10px;">${formattedName} (${agent.mat})</td>
+          <td>${agent.team.toUpperCase()}</td>
+          <td>${countD}</td>
+          <td>${countN}</td>
+          <td>${countAT}</td>
+          <td>${countFR}</td>
+          <td>${countFT}</td>
+          <td>${count24h}</td>
+          <td style="font-weight: 800; font-size: 13px;">${totalHours}h</td>
+          <td>${statusHtml}</td>
+        `;
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderSummaryFoot() {
+      const tfoot = document.getElementById('schedule-foot');
+      tfoot.innerHTML = '';
+
+      const filteredAgents = agents.filter(a => a.team === currentTab);
+
+      const trD = document.createElement('tr');
+      const trN = document.createElement('tr');
+      const trTotal = document.createElement('tr');
+
+      trD.className = 'summary-row';
+      trN.className = 'summary-row';
+      trTotal.className = 'summary-row';
+
+      trD.innerHTML = `<td class="col-fixed-1">Diurno (D) Total</td>`;
+      trN.innerHTML = `<td class="col-fixed-1">Noturno (N) Total</td>`;
+      trTotal.innerHTML = `<td class="col-fixed-1">Total Geral Efetivo</td>`;
+
+      for (let day = 1; day <= DAYS_IN_MONTH; day++) {
+        let countD = 0;
+        let countN = 0;
+
+        filteredAgents.forEach(a => {
+          const s = a.shifts[day];
+          if (s === 'D' || s === '24h') countD++;
+          if (s === 'N' || s === '24h') countN++;
+        });
+
+        const tdD = document.createElement('td');
+        tdD.textContent = countD;
+
+        const tdN = document.createElement('td');
+        tdN.textContent = countN;
+
+        const tdTotal = document.createElement('td');
+        tdTotal.textContent = countD + countN;
+
+        trD.appendChild(tdD);
+        trN.appendChild(tdN);
+        trTotal.appendChild(tdTotal);
+      }
+
+      tfoot.appendChild(trD);
+      tfoot.appendChild(trN);
+      tfoot.appendChild(trTotal);
+    }
+
+    function populateDropdowns() {
+      const dropdowns = document.querySelectorAll('.agent-dropdown');
+      dropdowns.forEach(dp => {
+        const currentVal = dp.value;
+        dp.innerHTML = '<option value="">Selecione o Agente...</option>';
+        agents.forEach(a => {
+          const opt = document.createElement('option');
+          opt.value = `${a.id}`;
+          opt.textContent = `${a.name} (${a.mat}) [${a.team.toUpperCase()}]`;
+          dp.appendChild(opt);
+        });
+        if (currentVal) dp.value = currentVal;
+      });
+    }
+
+    function updateAgentName(id, val) {
+      const agent = agents.find(a => a.id === id);
+      if (agent) {
+        agent.name = val;
+        saveData();
+        populateDropdowns();
+        renderRelatorioGeral();
+        renderRelatorio();
+        renderGestaoAgentes();
+      }
+    }
+
+    function updateAgentMat(id, val) {
+      const agent = agents.find(a => a.id === id);
+      if (agent) {
+        agent.mat = val;
+        saveData();
+        populateDropdowns();
+        renderRelatorioGeral();
+        renderRelatorio();
+        renderGestaoAgentes();
+      }
+    }
+
+    function changeShift(id, day, val) {
+      const agent = agents.find(a => a.id === id);
+      if (agent) {
+        agent.shifts[day] = val;
+        saveData();
+        renderSchedule();
+        renderRelatorioGeral();
+        renderRelatorio();
+      }
+    }
+
+    function toggleEditMode() {
+      isEditMode = !isEditMode;
+      const badge = document.getElementById('mode-badge');
+      if (isEditMode) {
+        badge.textContent = 'Modo Edição Ativo';
+        badge.className = 'mode-indicator mode-edit';
+      } else {
+        badge.textContent = 'Modo Leitura';
+        badge.className = 'mode-indicator mode-view';
+      }
+      renderSchedule();
+    }
+
+    function switchTab(tab) {
+      currentTab = tab;
+      document.querySelectorAll('.nav-tab').forEach(btn => btn.classList.remove('active'));
+      if(event && event.target) event.target.classList.add('active');
+
+      document.getElementById('view-escala').style.display = 'none';
+      document.getElementById('view-gestao-agentes').style.display = 'none';
+      document.getElementById('view-relatorio-geral').style.display = 'none';
+      document.getElementById('view-relatorio').style.display = 'none';
+      document.getElementById('view-trocas').style.display = 'none';
+      document.getElementById('view-he').style.display = 'none';
+      document.getElementById('view-conduta').style.display = 'none';
+
+      if (['delta1', 'delta2', 'evt'].includes(tab)) {
+        let teamTitle = 'DELTA 1';
+        if (tab === 'delta2') teamTitle = 'DELTA 2';
+        if (tab === 'evt') teamTitle = 'EVT / OPERACIONAL';
+        document.getElementById('print-tab-title').textContent = `EQUIPE: ${teamTitle}`;
+        document.getElementById('view-escala').style.display = 'block';
+        renderSchedule();
+      } else if (tab === 'gestao-agentes') {
+        document.getElementById('print-tab-title').textContent = 'GESTÃO DE COLABORADORES';
+        document.getElementById('view-gestao-agentes').style.display = 'block';
+        renderGestaoAgentes();
+      } else if (tab === 'relatorio-geral') {
+        document.getElementById('print-tab-title').textContent = 'RELATÓRIO GERAL DO MÊS';
+        document.getElementById('view-relatorio-geral').style.display = 'block';
+        renderRelatorioGeral();
+      } else if (tab === 'relatorio') {
+        document.getElementById('print-tab-title').textContent = 'RELATÓRIO INDIVIDUAL DE HORAS';
+        document.getElementById('view-relatorio').style.display = 'block';
+        renderRelatorio();
+      } else {
+        document.getElementById(`view-${tab}`).style.display = 'block';
+      }
+    }
+
+    function downloadPDF() {
+      window.print();
+    }
+
+    function renderTables() {
+      const trocasBody = document.getElementById('trocas-body');
+      trocasBody.innerHTML = '';
+      trocasList.forEach((item, index) => {
+        const solAgent = agents.find(a => a.id === item.sol) || { name: item.sol };
+        const subAgent = agents.find(a => a.id === item.sub) || { name: item.sub };
+        
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${item.dt}</td><td>${solAgent.name}</td><td>${subAgent.name}</td><td>${item.tur}</td><td>${item.st}</td><td><button class="btn btn-danger" onclick="removeTroca(${index})">X</button></td>`;
+        trocasBody.appendChild(tr);
+      });
+
+      const heBody = document.getElementById('he-body');
+      heBody.innerHTML = '';
+      heList.forEach((item, index) => {
+        const agAgent = agents.find(a => a.id === item.ag) || { name: item.ag };
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${item.dt}</td><td>${agAgent.name}</td><td>${item.mot}</td><td>24h</td><td><button class="btn btn-danger" onclick="removeHE(${index})">X</button></td>`;
+        heBody.appendChild(tr);
+      });
+
+      const condutaBody = document.getElementById('conduta-body');
+      condutaBody.innerHTML = '';
+      condutaList.forEach((item, index) => {
+        const agAgent = agents.find(a => a.id === item.ag) || { name: item.ag };
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${item.dt}</td><td>${agAgent.name}</td><td>${item.tp}</td><td>${item.rel}</td><td><button class="btn btn-danger" onclick="removeConduta(${index})">X</button></td>`;
+        condutaBody.appendChild(tr);
+      });
+    }
+
+    function addTroca() {
+      const sol = document.getElementById('tr-solicitante').value;
+      const sub = document.getElementById('tr-substituto').value;
+      const dtStr = document.getElementById('tr-data').value;
+      const tur = document.getElementById('tr-turno').value;
+      const st = document.getElementById('tr-status').value;
+
+      if (!sol || !sub || !dtStr) return alert('Preencha todos os campos!');
+
+      const dayNum = parseInt(dtStr.split('-')[2], 10);
+
+      if (st === 'Autorizado' && dayNum >= 1 && dayNum <= DAYS_IN_MONTH) {
+        const solAgent = agents.find(a => a.id === sol);
+        const subAgent = agents.find(a => a.id === sub);
+
+        if (solAgent && subAgent) {
+          const origSolShift = solAgent.shifts[dayNum] || 'F';
+          const origSubShift = subAgent.shifts[dayNum] || 'F';
+
+          if (tur === 'Diurno 12h x Noturno 12h' || tur === 'Noturno 12h x Diurno 12h') {
+            solAgent.shifts[dayNum] = origSubShift;
+            subAgent.shifts[dayNum] = origSolShift;
+          } else {
+            solAgent.shifts[dayNum] = 'F';
+            subAgent.shifts[dayNum] = 'D';
+          }
+        }
+      }
+
+      trocasList.push({ dt: dtStr, dayNum, sol, sub, tur, st });
+      saveData();
+      renderTables();
+      renderSchedule();
+      renderRelatorioGeral();
+      renderRelatorio();
+    }
+
+    function removeTroca(index) {
+      const item = trocasList[index];
+      if (item && item.st === 'Autorizado' && item.dayNum) {
+        const solAgent = agents.find(a => a.id === item.sol);
+        const subAgent = agents.find(a => a.id === item.sub);
+
+        if (solAgent && subAgent) {
+          const currSolShift = solAgent.shifts[item.dayNum];
+          const currSubShift = subAgent.shifts[item.dayNum];
+
+          solAgent.shifts[item.dayNum] = currSubShift;
+          subAgent.shifts[item.dayNum] = currSolShift;
+        }
+      }
+
+      trocasList.splice(index, 1);
+      saveData();
+      renderTables();
+      renderSchedule();
+      renderRelatorioGeral();
+      renderRelatorio();
+    }
+
+    function addHE() {
+      const ag = document.getElementById('he-agente').value;
+      const dtStr = document.getElementById('he-data').value;
+      const mot = document.getElementById('he-motivo').value;
+
+      if (!ag || !dtStr) return alert('Preencha os campos!');
+
+      const dayNum = parseInt(dtStr.split('-')[2], 10);
+
+      if (dayNum >= 1 && dayNum <= DAYS_IN_MONTH) {
+        const agent = agents.find(a => a.id === ag);
+        if (agent) {
+          agent.shifts[dayNum] = '24h';
+        }
+      }
+
+      heList.push({ dt: dtStr, dayNum, ag, mot });
+      saveData();
+      renderTables();
+      renderSchedule();
+      renderRelatorioGeral();
+      renderRelatorio();
+    }
+
+    function removeHE(index) {
+      const item = heList[index];
+      if (item && item.dayNum) {
+        const agent = agents.find(a => a.id === item.ag);
+        if (agent) {
+          const isWeekend = (((item.dayNum - 1) % 7) === 2 || ((item.dayNum - 1) % 7) === 3);
+          if (agent.team === 'delta1') {
+            agent.shifts[item.dayNum] = (item.dayNum % 2 !== 0) ? (item.dayNum % 4 === 1 ? 'D' : 'N') : 'F';
+          } else if (agent.team === 'delta2') {
+            agent.shifts[item.dayNum] = (item.dayNum % 2 === 0) ? (item.dayNum % 4 === 0 ? 'D' : 'N') : 'F';
+          } else {
+            agent.shifts[item.dayNum] = isWeekend ? 'F' : 'D';
+          }
+        }
+      }
+
+      heList.splice(index, 1);
+      saveData();
+      renderTables();
+      renderSchedule();
+      renderRelatorioGeral();
+      renderRelatorio();
+    }
+
+    function addConduta() {
+      const ag = document.getElementById('cd-agente').value;
+      const dt = document.getElementById('cd-data').value;
+      const tp = document.getElementById('cd-tipo').value;
+      const rel = document.getElementById('cd-relato').value;
+
+      if (!ag || !rel) return alert('Preencha todos os campos!');
+
+      condutaList.push({ dt, ag, tp, rel });
+      saveData();
+      renderTables();
+    }
+
+    function removeConduta(index) {
+      condutaList.splice(index, 1);
+      saveData();
+      renderTables();
+    }
+
+    window.onload = function() {
+      loadData();
+      renderHeaders();
+      renderSchedule();
+      renderGestaoAgentes();
+      renderRelatorioGeral();
+      renderRelatorio();
+      renderTables();
+    };
+  </script>
+</body>
+</html>
